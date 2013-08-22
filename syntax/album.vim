@@ -23,9 +23,9 @@ syn case ignore
 
 syn match	albumError	![^ \t{}\[\]";]*!
 syn match	albumError	"]"
+syn match albumError  "}"
 
 " Quoted and backquoted stuff
-
 syn region albumQuoted matchgroup=Delimiter start="['`]" end=![ \t\{\}\[\]";]!me=e-1 contains=ALLBUT,albumStruc,albumSyntax,albumFunc
 
 syn region albumQuoted matchgroup=Delimiter start="['`]\[" matchgroup=Delimiter end="\]" contains=ALLBUT,albumStruc,albumSyntax,albumFunc
@@ -33,13 +33,10 @@ syn region albumQuoted matchgroup=Delimiter start="['`]\[" matchgroup=Delimiter 
 syn region albumStrucRestricted matchgroup=Delimiter start="\[" matchgroup=Delimiter end="\]" contains=ALLBUT,albumStruc,albumSyntax,albumFunc
 
 syn region albumUnquote matchgroup=Delimiter start="," end=![ \t\[\]{}";]!me=e-1 contains=ALLBUT,albumStruc,albumSyntax,albumFunc
-syn region albumUnquote matchgroup=Delimiter start=",@" end=![ \t\[\]{}";]!me=e-1 contains=ALLBUT,albumStruc,albumSyntax,albumFunc
 
 syn region albumUnquote matchgroup=Delimiter start=",\[" end="]" contains=ALL
-syn region albumUnquote matchgroup=Delimiter start=",@\[" end="\]" contains=ALL
 
 syn region albumUnquote matchgroup=Delimiter start=",{" end="}" contains=ALL
-syn region albumUnquote matchgroup=Delimiter start=",@{" end="}" contains=ALL
 
 if version < 600
   set iskeyword=33,35-39,42-58,60-90,94,95,97-122,126,_
@@ -47,11 +44,8 @@ else
   setlocal iskeyword=33,35-39,42-58,60-90,94,95,97-122,126,_
 endif
 
-"Splicing
-syn region albumSplicing matchgroup=Delimiter start="@" end=![ \t\{\}\[\]";]!me=e-1 contains=ALL
-
 "Special Forms
-syn keyword albumSyntax fn extend if begin def set!
+syn keyword albumSyntax fn extend if begin def set! @
 
 "Standard Forms
 syn keyword albumFunc let zap!
@@ -63,7 +57,7 @@ syn match	albumDelimiter	!\.[ \t\[\]{}";]!me=e-1
 syn match	albumDelimiter	!\.$!
 " ... and a single dot is not a number but a delimiter
 
-" This keeps all other stuff unhighlighted, except *stuff* and <stuff>:
+" This keeps all other stuff unhighlighted, except *stuff*
 
 syn match	albumOther	,[a-z!$%&*/:<=>?^_~+@#%-][-a-z!$%&*/:<=>?^_~0-9+.@#%]*,
 syn match	albumError	,[a-z!$%&*/:<=>?^_~+@#%-][-a-z!$%&*/:<=>?^_~0-9+.@#%]*[^-a-z!$%&*/:<=>?^_~0-9+.@ \t\[\]{}";]\+[^ \t\[\]{}";]*,
@@ -74,12 +68,7 @@ syn match	albumGlobal ,\*[-a-z!$%&*/:<=>?^_~0-9+.@]\+\*[ \t\[\]{}";],me=e-1
 syn match	albumGlobal ,\*[-a-z!$%&*/:<=>?^_~0-9+.@]\+\*$,
 syn match	albumError  ,\*[-a-z!$%&*/:<=>?^_~0-9+.@]*\*[^-a-z!$%&*/:<=>?^_~0-9+.@ \t\[\]{}";]\+[^ \t\[\]{}";]*,
 
-syn match	albumConstant	,<[-a-z!$%&*/:<=>?^_~0-9+.@]*>[ \t\[\]{}";],me=e-1
-syn match	albumConstant	,<[-a-z!$%&*/:<=>?^_~0-9+.@]*>$,
-syn match	albumError	,<[-a-z!$%&*/:<=>?^_~0-9+.@]*>[^-a-z!$%&*/:<=>?^_~0-9+.@ \t\[\]{}";]\+[^ \t\[\]{}";]*,
-
 " Non-quoted lists
-
 syn region albumStruc matchgroup=Delimiter start="\[" matchgroup=Delimiter end="\]" contains=ALL
 syn region albumStruc matchgroup=Delimiter start="{" matchgroup=Delimiter end="}" contains=ALL
 
@@ -91,10 +80,9 @@ syn match	albumComment	";.*$" contains=@Spell
 
 " Writing out the complete description of Scheme numerals without
 " using variables is a day's work for a trained secretary...
-
 syn match	albumOther	![+-][ \t\[\]{}";]!me=e-1
 syn match	albumOther	![+-]$!
-"
+
 " This is a useful lax approximation:
 syn match	albumNumber	"[-#+.]\=[0-9][-#+/0-9a-f@i.boxesfdl]*"
 syn match	albumError	![-#+0-9.][-#+/0-9a-f@i.boxesfdl]*[^-#+/0-9a-f@i.boxesfdl \t\[\]{}";][^ \t\[\]{}";]*!
@@ -138,14 +126,14 @@ if version >= 508 || !exists("did_album_syntax_inits")
   HiLink albumNumber    Number
 
   HiLink albumDelimiter Delimiter
-  HiLink albumConstant  Constant
+  HiLink albumGlobal    Constant
 
   HiLink albumComment   Comment
   HiLink albumError     Error
 
   HiLink albumQuoted    Constant
   HiLink albumUnquoted  Constant
-  HiLink albumSplicing  Statement
+  HiLink albumSplicing  Constant
   delcommand HiLink
 endif
 
