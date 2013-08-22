@@ -45,7 +45,7 @@ else
 endif
 
 "Special Forms
-syn keyword albumSyntax fn extend if begin def set! @
+syn keyword albumSyntax fn extend if begin def set!
 
 "Standard Forms
 syn keyword albumFunc let zap!
@@ -96,7 +96,7 @@ syn match	albumCharacter	"#space"
 syn match	albumError	!#space[^ \t\[\]{}";]\+!
 syn match	albumCharacter	"#newline"
 syn match	albumError	!#newline[^ \t\[\]{}";]\+!
-syn match albumCharacter "#x[0-9a-fA-F]\+"
+syn match albumCharacter "#[0-9a-fA-F]\+"
 syn match	albumCharacter	"#\%(return\|tab\)"
 
 " anything limited by |'s is identifier
@@ -131,9 +131,6 @@ if version >= 508 || !exists("did_album_syntax_inits")
   HiLink albumComment   Comment
   HiLink albumError     Error
 
-  HiLink albumQuoted    Constant
-  HiLink albumUnquoted  Constant
-  HiLink albumSplicing  Constant
   delcommand HiLink
 endif
 
