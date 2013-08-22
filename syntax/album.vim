@@ -36,10 +36,10 @@ syn region albumUnquote matchgroup=Delimiter start="," end=![ \t\[\]()";]!me=e-1
 syn region albumUnquote matchgroup=Delimiter start=",@" end=![ \t\[\]()";]!me=e-1 contains=ALLBUT,albumStruc,albumSyntax,albumFunc
 
 syn region albumUnquote matchgroup=Delimiter start=",\[" end="]" contains=ALL
-syn region albumUnquote matchgroup=Delimiter start=",@[" end="]" contains=ALL
+syn region albumUnquote matchgroup=Delimiter start=",@\[" end="\]" contains=ALL
 
-syn region albumUnquote matchgroup=Delimiter start=",\{" end="\}" contains=ALL
-syn region albumUnquote matchgroup=Delimiter start=",@\{" end="\}" contains=ALL
+syn region albumUnquote matchgroup=Delimiter start=",{" end="}" contains=ALL
+syn region albumUnquote matchgroup=Delimiter start=",@{" end="}" contains=ALL
 
 if version < 600
   set iskeyword=33,35-39,42-58,60-90,94,95,97-122,126,_
@@ -79,7 +79,7 @@ syn match	albumError	,<[-a-z!$%&*/:<=>?^_~0-9+.@]*>[^-a-z!$%&*/:<=>?^_~0-9+.@ \t
 
 " Non-quoted lists
 
-syn region albumStruc matchgroup=Delimiter start="[" matchgroup=Delimiter end="]" contains=ALL
+syn region albumStruc matchgroup=Delimiter start="\[" matchgroup=Delimiter end="\]" contains=ALL
 syn region albumStruc matchgroup=Delimiter start="{" matchgroup=Delimiter end="}" contains=ALL
 
 " Simple literals:
